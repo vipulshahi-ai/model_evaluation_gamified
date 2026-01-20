@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evaluator’s Arena | ML Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .custom-slider::-webkit-slider-runnable-track {
+            background: #334155;
+            height: 8px;
+            border-radius: 4px;
+        }
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            background: #38bdf8;
+            border-radius: 50%;
+            margin-top: -6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div>
+                <h1 class="text-2xl font-bold gradient-text mb-1">Evaluator's Arena</h1>
+                <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Model Inspector HQ</p>
+            </div>
+
+            <nav class="flex flex-col gap-2 mt-8">
+                <div class="level-nav-item active" data-level="accuracy_paradox" onclick="game.loadLevel('accuracy_paradox')">
+                    <i class="fas fa-bullseye mr-3"></i> 1. Accuracy Paradox
+                </div>
+                <div class="level-nav-item" data-level="darts_game" onclick="game.loadLevel('darts_game')">
+                    <i class="fas fa-chart-line mr-3"></i> 2. The Darts Game
+                </div>
+                <div class="level-nav-item" data-level="archers_range" onclick="game.loadLevel('archers_range')">
+                    <i class="fas fa-bow-arrow mr-3"></i> 3. Archer's Range
+                </div>
+                <div class="level-nav-item" data-level="rotation_policy" onclick="game.loadLevel('rotation_policy')">
+                    <i class="fas fa-sync mr-3"></i> 4. Rotation Policy
+                </div>
+            </nav>
+
+            <div class="mt-auto">
+                <h3 class="text-xs text-slate-400 uppercase tracking-widest font-semibold mb-4">Achievements</h3>
+                <div id="badges-container" class="flex flex-col gap-4">
+                    <!-- Badges will be rendered here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 id="level-title" class="text-3xl font-bold">The Accuracy Paradox</h2>
+                    <p id="level-subtitle" class="text-slate-400">Level 1: Binary Classification</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400">Total Points</p>
+                        <p id="total-score" class="font-bold text-xl">0</p>
+                    </div>
+                </div>
+            </header>
+
+            <div id="game-area" class="space-y-8">
+                <!-- Level content will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Knowledge Gate Overlay -->
+    <div id="knowledge-gate">
+        <div class="gate-content card text-center space-y-6">
+            <h3 class="text-2xl font-bold">Knowledge Gate</h3>
+            <p id="gate-question" class="text-slate-300">Question content goes here...</p>
+            <div id="gate-options" class="flex flex-col gap-3">
+                <!-- Options will be rendered here -->
+            </div>
+            <p id="gate-feedback" class="hidden font-bold"></p>
+        </div>
+    </div>
+
+    <script src="game_logic.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{
+  "curriculum": [
+    {
+      "id": "accuracy_paradox",
+      "title": "The Accuracy Paradox",
+      "subtitle": "Level 1: Binary Classification",
+      "narrative": "A 'Lazy Model' for Diabetes prediction always predicts 'Healthy'. It looks successful, but is it? Audit the model and find the truth.",
+      "challenge": "Calculate the Accuracy and then build a Confusion Matrix to see the Recall for sick patients.",
+      "patients": [
+        {"id": 1, "status": "Sick", "prediction": "Healthy"},
+        {"id": 2, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 3, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 4, "status": "Sick", "prediction": "Healthy"},
+        {"id": 5, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 6, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 7, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 8, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 9, "status": "Healthy", "prediction": "Healthy"},
+        {"id": 10, "status": "Healthy", "prediction": "Healthy"}
+      ],
+      "questions": [
+        {
+          "text": "What is the Accuracy of this model? (Total correct / Total patients)",
+          "answer": 0.8,
+          "feedback": "Correct! 8 out of 10 predictions were right. But notice something..."
+        }
+      ],
+      "badge": "Fairness Champion"
+    },
+    {
+      "id": "darts_game",
+      "title": "The Darts Game",
+      "subtitle": "Level 2: Regression Metrics",
+      "narrative": "Predict house prices! See how different ways of measuring error change your perception of performance.",
+      "challenge": "Move the dots to minimize the error. Watch MAE, MSE, and R-Squared update live.",
+      "data": [
+        {"x": 1, "actual": 200, "predicted": 150},
+        {"x": 2, "actual": 300, "predicted": 280},
+        {"x": 3, "actual": 400, "predicted": 420},
+        {"x": 4, "actual": 500, "predicted": 480},
+        {"x": 5, "actual": 900, "predicted": 600}
+      ],
+      "badge": "Outlier Hunter"
+    },
+    {
+      "id": "archers_range",
+      "title": "The Archer’s Range",
+      "subtitle": "Level 3: Bias vs. Variance",
+      "narrative": "A model is like an archer. Too rigid and it misses the target (Bias). Too loose and it's all over the place (Variance).",
+      "challenge": "Find the 'Sweet Spot' by adjusting the Model Complexity slider.",
+      "badge": "Bias Buster"
+    },
+    {
+      "id": "rotation_policy",
+      "title": "The Rotation Policy",
+      "subtitle": "Level 4: K-Fold Cross-Validation",
+      "narrative": "Don't trust a single test split. Rotate the testing slice to ensure your model is truly robust.",
+      "challenge": "Simulate the rotation and observe the variance in scores across folds.",
+      "badge": "Validation Veteran"
+    }
+  ],
+  "knowledge_gates": [
+    {
+      "question": "If a model has 100% accuracy on training data but only 60% on test data, what is the problem?",
+      "options": ["High Bias (Underfitting)", "High Variance (Overfitting)", "Low Complexity"],
+      "answer": "High Variance (Overfitting)"
+    },
+    {
+      "question": "Which metric is most sensitive to outliers?",
+      "options": ["MAE", "MSE", "Accuracy"],
+      "answer": "MSE"
+    }
+  ]
+}
