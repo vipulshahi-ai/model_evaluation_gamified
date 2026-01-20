@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             height: 8px;
             border-radius: 4px;
         }
+
         .custom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 20px;
@@ -26,6 +28,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
@@ -36,14 +39,15 @@
             </div>
 
             <nav class="flex flex-col gap-2 mt-8">
-                <div class="level-nav-item active" data-level="accuracy_paradox" onclick="game.loadLevel('accuracy_paradox')">
+                <div class="level-nav-item active" data-level="accuracy_paradox"
+                    onclick="game.loadLevel('accuracy_paradox')">
                     <i class="fas fa-bullseye mr-3"></i> 1. Accuracy Paradox
                 </div>
                 <div class="level-nav-item" data-level="darts_game" onclick="game.loadLevel('darts_game')">
                     <i class="fas fa-chart-line mr-3"></i> 2. The Darts Game
                 </div>
                 <div class="level-nav-item" data-level="archers_range" onclick="game.loadLevel('archers_range')">
-                    <i class="fas fa-bow-arrow mr-3"></i> 3. Archer's Range
+                    <i class="fas fa-crosshairs mr-3"></i> 3. Archer's Range
                 </div>
                 <div class="level-nav-item" data-level="rotation_policy" onclick="game.loadLevel('rotation_policy')">
                     <i class="fas fa-sync mr-3"></i> 4. Rotation Policy
@@ -93,4 +97,5 @@
 
     <script src="game_logic.js"></script>
 </body>
+
 </html>
