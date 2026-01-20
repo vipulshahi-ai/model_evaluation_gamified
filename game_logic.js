@@ -388,7 +388,8 @@ class Game {
                         data: data.map(d => ({ x: d.x, y: d.predicted })),
                         backgroundColor: '#fbbf24',
                         pointRadius: 10,
-                        dragData: true // Note: would need a plugin for easy dragging, for now we will use input or click
+                        pointHitRadius: 25, // Larger area for touch
+                        dragData: true
                     }
                 ]
             },
@@ -449,13 +450,14 @@ class Game {
             const x = touch.clientX - rect.left;
             const y = touch.clientY - rect.top;
 
-            const points = this.chart.getElementsAtEventForMode({ x, y }, 'nearest', { intersect: true }, true);
+            // Detection on touch needs to be more lenient (intersect: false)
+            const points = this.chart.getElementsAtEventForMode({ x, y }, 'nearest', { intersect: false }, true);
             if (points.length && points[0].datasetIndex === 1) {
                 dragging = true;
                 dragIndex = points[0].index;
-                e.preventDefault();
+                if (e.cancelable) e.preventDefault();
             }
-        });
+        }, { passive: false });
 
         ctx.canvas.addEventListener('touchmove', (e) => {
             if (dragging) {
@@ -465,9 +467,9 @@ class Game {
                 this.chart.data.datasets[1].data[dragIndex].y = Math.round(yValue);
                 this.chart.update('none');
                 this.calculateRegressionMetrics();
-                e.preventDefault();
+                if (e.cancelable) e.preventDefault();
             }
-        });
+        }, { passive: false });
 
         ctx.canvas.addEventListener('touchend', () => {
             dragging = false;
