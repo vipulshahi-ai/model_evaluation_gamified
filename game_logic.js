@@ -85,6 +85,7 @@ class Game {
     init() {
         this.renderBadges();
         this.loadLevel('accuracy_paradox');
+        this.initTouchSupport();
     }
 
     renderBadges() {
@@ -219,13 +220,69 @@ class Game {
     handleDrop(e) {
         e.preventDefault();
         e.currentTarget.classList.remove('drag-over');
-        const patientId = e.dataTransfer.getData('text');
+        const patientId = e.dataTransfer ? e.dataTransfer.getData('text') : this.touchState.patientId;
         const patient = document.getElementById(patientId);
-        const zoneId = e.currentTarget.id;
+        if (!patient) return;
 
-        // Logic to check if valid drop? No, let user drop anywhere and we verify later or just allow visual sorting.
         e.currentTarget.appendChild(patient);
         this.validateMatrix();
+    }
+
+    // --- MOBILE TOUCH SUPPORT ---
+    initTouchSupport() {
+        this.touchState = { patientId: null, targetZone: null };
+
+        document.addEventListener('touchstart', (e) => {
+            const patient = e.target.closest('.patient-card');
+            if (patient) {
+                this.touchState.patientId = patient.id;
+                patient.style.opacity = '0.5';
+                patient.style.zIndex = '1000';
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!this.touchState.patientId) return;
+            e.preventDefault(); // Prevent scrolling while dragging
+
+            const touch = e.touches[0];
+            const patient = document.getElementById(this.touchState.patientId);
+
+            // Move the element with the touch
+            patient.style.position = 'fixed';
+            patient.style.left = (touch.clientX - patient.offsetWidth / 2) + 'px';
+            patient.style.top = (touch.clientY - patient.offsetHeight / 2) + 'px';
+
+            // Find potential drop zone
+            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+            const zone = elements.find(el => el.classList.contains('drop-zone'));
+
+            document.querySelectorAll('.drop-zone').forEach(dz => dz.classList.remove('drag-over'));
+            if (zone) {
+                zone.classList.add('drag-over');
+                this.touchState.targetZone = zone;
+            } else {
+                this.touchState.targetZone = null;
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchend', (e) => {
+            if (!this.touchState.patientId) return;
+
+            const patient = document.getElementById(this.touchState.patientId);
+            patient.style.opacity = '1';
+            patient.style.position = 'static';
+            patient.style.zIndex = '';
+
+            if (this.touchState.targetZone) {
+                this.touchState.targetZone.appendChild(patient);
+                this.touchState.targetZone.classList.remove('drag-over');
+                this.validateMatrix();
+            }
+
+            this.touchState.patientId = null;
+            this.touchState.targetZone = null;
+        });
     }
 
     validateMatrix() {
@@ -381,7 +438,38 @@ class Game {
             }
         });
 
-        window.addEventListener('mouseup', () => {
+        ctx.canvas.addEventListener('mouseup', () => {
+            dragging = false;
+        });
+
+        // Touch handlers for chart
+        ctx.canvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            const rect = ctx.canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            const points = this.chart.getElementsAtEventForMode({ x, y }, 'nearest', { intersect: true }, true);
+            if (points.length && points[0].datasetIndex === 1) {
+                dragging = true;
+                dragIndex = points[0].index;
+                e.preventDefault();
+            }
+        });
+
+        ctx.canvas.addEventListener('touchmove', (e) => {
+            if (dragging) {
+                const touch = e.touches[0];
+                const rect = ctx.canvas.getBoundingClientRect();
+                const yValue = this.chart.scales.y.getValueForPixel(touch.clientY - rect.top);
+                this.chart.data.datasets[1].data[dragIndex].y = Math.round(yValue);
+                this.chart.update('none');
+                this.calculateRegressionMetrics();
+                e.preventDefault();
+            }
+        });
+
+        ctx.canvas.addEventListener('touchend', () => {
             dragging = false;
         });
 

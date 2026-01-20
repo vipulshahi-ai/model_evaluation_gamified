@@ -58,42 +58,6 @@ body {
     overflow-y: auto;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 1024px) {
-    .dashboard-container {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        height: auto;
-        position: relative;
-        padding: 1.5rem;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        gap: 1rem;
-    }
-
-    .sidebar nav {
-        flex-direction: row;
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .level-nav-item {
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-
-    .sidebar .mt-auto {
-        display: none;
-        /* Hide badges in mobile sidebar to save space, maybe move them elsewhere */
-    }
-
-    .main-content {
-        padding: 1rem;
-    }
-}
 
 /* Typography */
 h1,
@@ -329,4 +293,91 @@ input[type="number"] {
     padding: 0.5rem;
     border-radius: 4px;
     width: 80px;
+}
+
+/* --- MOBILE AND TABLET OPTIMIZATIONS --- */
+@media (max-width: 1024px) {
+    .dashboard-container {
+        grid-template-columns: 1fr !important;
+        display: block;
+        /* Fallback for older browsers */
+    }
+
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        padding: 1rem !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        gap: 0.75rem !important;
+        z-index: 50;
+    }
+
+    .sidebar h1 {
+        font-size: 1.25rem !important;
+    }
+
+    .sidebar p {
+        display: none;
+        /* Hide 'Model Inspector HQ' to save vertical space */
+    }
+
+    .sidebar nav {
+        flex-direction: row !important;
+        overflow-x: auto;
+        padding: 0.5rem 0;
+        gap: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .sidebar nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .level-nav-item {
+        white-space: nowrap;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.8rem;
+    }
+
+    .sidebar .mt-auto {
+        display: none;
+    }
+
+    .main-content {
+        padding: 1rem !important;
+    }
+
+    header h2 {
+        font-size: 1.5rem !important;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .matrix-grid {
+        grid-template-columns: 50px 1fr 1fr !important;
+        gap: 0.25rem !important;
+    }
+
+    .drop-zone {
+        min-height: 100px !important;
+    }
+
+    .patient-card {
+        padding: 4px 8px !important;
+        font-size: 10px !important;
+        min-width: 60px !important;
+    }
+
+    .metric-value {
+        font-size: 1.1rem !important;
+    }
 }
